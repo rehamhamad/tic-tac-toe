@@ -5,6 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
 </head>
+
+<style>
+    * { box-sizing:border-box; margin: 0; padding: 0;}
+    body{
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #FFF5FA;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #f2a0c2;
+    }
+    .container {
+        text-align: center;
+    }
+
+    h1{
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #440a21;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.4rem;
+    }
+
+    .subtitle{
+        font-size: 0.9rem;
+        color:#751238;
+        margin-bottom: 0rem;
+        letter-spacing: 0.05em;
+        text-transform:lowercase;
+    }
+
+    .status{
+        font-size: 1.1rem;
+        margin-bottom: 1.4rem;
+        min-height: 1.6rem;
+        color: #751238;
+        letter-spacing: 0.03em;
+    }
+    .status .x{color: #751238;font-weight: 700;}
+    .status .o{color: #751238;font-weight: 700;}
+
+    .board{
+        display: grid;
+        grid-template-columns: repeat(3,110px);
+        grid-template-rows: repeat(3,110px);
+        gap:10px;
+        padding: 20px;
+        margin: 0 auto 2rem;
+        width:fit-content;
+        background: #FFF;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(255,182, 193, 0.4);
+    }
+     .cell{
+        width: 100px;
+        height: 100px;
+        background-color: #fff0f6;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: inset 0 0 10px rgba(255,192, 203, 0.3);
+    }
+    .cell:hover:not(.taken){
+        transform: scale(1.05);
+        background: #ea6396;
+
+    }
+   .cell.x{
+    color: #b57edc;
+   }
+   .cell.o{
+    color: #ff6f91;
+   }
+   .cell.winner{
+    background: linear-gradient(135deg, #ffd6e8, #ffc2d1);
+    border: 2px solid #ff4d6d;
+    box-shadow: 0 0 18px rgba(255, 77, 109, 0.5);
+    animation: pop 0.3s ease;
+    transform: scale(1.08);
+    }
+    .btn{
+    background: #ea6396;
+    border:2px solid #ea6396;
+    border-radius:5px ;
+    padding:0.5rem 1.8rem;
+    font-size: 0.95;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.07em;
+    transition: border-color 0.15s, color 0.15s;
+    margin-bottom: 20px;
+    color: #ffcee3;
+    box-shadow:0 0 10px #751238;
+    }
+    .btn:hover{
+        background-color: #b7235c;
+        border-color:#b7235c;
+        color: #ffcee3;
+    }
+    .scores{
+        display:flex;
+        justify-content: center;
+        gap:2rem;
+        margin-bottom: 1.8rem;
+
+    }
+    .score-box{
+        text-align: center;
+    }
+    .score-label{
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        color: #751238;
+        margin-bottom: 0.2rem
+    }
+    .score.val{
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+    .score-box.x .score.val{color: #b57edc;}
+    .score-box.o .score.val{color: #ff4d6d;}
+    .score-box.d .score.val{color: #6E597A;}
+</style>
+
+
+
+
+
 <body>
 
     <div class="container">
@@ -20,12 +155,12 @@
             </div>
 
             <div class="score-box draw">
-                <div class="score-lable">Draws</div>
+                <div class="score-label">Draws</div>
                 <div class="score-val" id="score-d">0</div>
             </div>
 
             <div class="score-box o">
-                <div class="score-lable">Player O</div>
+                <div class="score-label">Player O</div>
                 <div class="score-val">0</div>
             </div>
         </div>
@@ -48,6 +183,5 @@
         <button class="btn" onclick="resetgame()">New Game</button>
 
     </div>
-    
 </body>
 </html>
