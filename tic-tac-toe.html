@@ -133,7 +133,7 @@
     }
     .score-box.x .score.val{color: #b57edc;}
     .score-box.o .score.val{color: #ff4d6d;}
-    .score-box.d .score.val{color: #6E597A;}
+    .score-box.draw .score.val{color: #6E597A;}
 </style>
 
 
@@ -161,7 +161,7 @@
 
             <div class="score-box o">
                 <div class="score-label">Player O</div>
-                <div class="score-val">0</div>
+                <div class="score-val" id="score-d">0</div>
             </div>
         </div>
 
@@ -183,5 +183,90 @@
         <button class="btn" onclick="resetgame()">New Game</button>
 
     </div>
+    <script>
+        const wins = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+
+            [0,4,8],
+            [2,4,6]
+        ];
+        let board,current,gameOver,scores={x:0,o:0,d:0};
+
+        function initgame(){
+            board=Array(9).fill('');
+            current='X';
+            gameOver=false;
+            document.querySelectorAll('.cell').forEach( c=>{
+                c.textContent='';
+                c.className='cell';
+            });
+            setstatus(`<span class="x">X</span>'s turn`);            
+        }
+        function setstatus(msg){
+            document.getElementById('status').innerHTML=msg;
+        }
+        function checkwinner(){
+            for (const [a, b, c] of wins) {
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return { winner: board[a], line: [a, b, c] };
+      }
+    }
+    if (board.every(Boolean)) return { winner: null, draw: true };
+    return null;
+  }
+ 
+  function updateScores() {
+    document.getElementById('score-x').textContent = scores.X;
+    document.getElementById('score-o').textContent = scores.O;
+    document.getElementById('score-d').textContent = scores.D;
+  }
+ 
+  document.querySelectorAll('.cell').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const i = +cell.dataset.i;
+      if (gameOver || board[i]) return;
+ 
+      board[i] = current;
+      cell.textContent = current;
+      cell.classList.add(current.toLowerCase(), 'taken');
+ 
+      const result = checkwinner();
+      if (result) {
+        gameOver = true;
+        if (result.winner) {
+          result.line.forEach(idx =>
+            document.querySelector(`[data-i="${idx}"]`).classList.add('winner')
+          );
+          scores[result.winner]++;
+          updateScores();
+          const cls = result.winner === 'X' ? 'x' : 'o';
+          setstatus(`<span class="${cls}">${result.winner}</span> wins!`);
+        } else {
+          scores.D++;
+          updateScores();
+          setstatus("It's a draw!");
+        }
+        return;
+      }
+ 
+      current = current === 'X' ? 'O' : 'X';
+      const cls = current === 'X' ? 'x' : 'o';
+      setstatus(`<span class="${cls}">${current}</span>'s turn`);
+    });
+  });
+ 
+  function resetgame() { initgame(); }
+ 
+  initgame();
+
+
+
+    </script>
 </body>
 </html>
